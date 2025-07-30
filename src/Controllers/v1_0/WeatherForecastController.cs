@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using SampleOpenApi.Controllers;
 
-namespace AspNetCore.SampleOpenApi.Controllers;
+namespace AspNetCore.SampleOpenApi.Controllers.v1_0;
 
-[Route("api/v{version:apiVersion}/forecasts")]
+[Route("api/forecasts")]
 [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "CA5394:Do not use insecure randomness", Justification = "<Pending>")]
 public class WeatherForecastController : ApiControllerBase
 {
@@ -18,8 +18,6 @@ public class WeatherForecastController : ApiControllerBase
     /// Get weather forcasts
     /// </summary>
     /// <returns>The collection of <see cref="WeatherForecast"/>s</returns>
-    [ApiVersion("1.0")]
-    [ApiVersion("2.0")]
     [HttpGet(Name = nameof(GetWeatherForcasts))]
     [ProducesResponseType(typeof(IEnumerable<WeatherForecast>), StatusCodes.Status200OK)]
     [ProducesDefaultResponseType]
@@ -39,7 +37,6 @@ public class WeatherForecastController : ApiControllerBase
     /// </summary>
     /// <param name="date">The the weather forecast date</param>
     /// <returns>The <see cref="WeatherForecast"/></returns>
-    [ApiVersion("2.0")]
     [HttpGet("{date}", Name = nameof(GetWeatherForcast))]
     [ProducesResponseType(typeof(WeatherForecast), StatusCodes.Status200OK)]
     [ProducesDefaultResponseType]

@@ -1,4 +1,5 @@
 using Asp.Versioning;
+using Asp.Versioning.Conventions;
 using AspNetCore.SampleOpenApi;
 using AspNetCore.SampleOpenApi.Transformers;
 using Microsoft.AspNetCore.Mvc;
@@ -25,28 +26,36 @@ internal static class ServiceCollectionExtensions
 
         if (options.Versions?.Any() ?? false)
         {
-            /* var versioningBuilder = */ services
-                .AddApiVersioning(o =>
-                {
-                    o.AssumeDefaultVersionWhenUnspecified = options.DefaultVersionAssumedWhenUnspecified;
-
-                    if (options.DefaultVersion == null)
-                    {
-                        o.ApiVersionSelector = new CurrentImplementationApiVersionSelector(o);
-                    }
-                    else
-                    {
-                        var (major, minor) = options.DefaultVersion.Value;
-                        o.DefaultApiVersion = new ApiVersion(major, minor);
-                    }
-                })
-                .AddApiExplorer(o =>
-                {
-                    o.GroupNameFormat = "'v'V'.'v";
-                    o.SubstituteApiVersionInUrl = true;
-                    o.SubstitutionFormat = "V'.'v";
-                });
-                // .AddMvc(o => { //o.Conventions });
+            /* var versioningBuilder = */
+            services
+            .AddApiVersioning(o =>
+            {
+                o.ApiVersionReader = ApiVersionReader.Combine(
+                    new HeaderApiVersionReader("api-version"),
+                    new QueryStringApiVersionReader("api-version")
+                );
+                o.AssumeDefaultVersionWhenUnspecified = options.DefaultVersionAssumedWhenUnspecified;
+                o.ReportApiVersions = true;
+                //if (options.DefaultVersion == null)
+                //{
+                //    o.ApiVersionSelector = new CurrentImplementationApiVersionSelector(o);
+                //}
+                //else
+                //{
+                //    var (major, minor) = options.DefaultVersion.Value;
+                //    o.DefaultApiVersion = new ApiVersion(major, minor);
+                //}
+            })
+            .AddApiExplorer(o =>
+            {
+                o.GroupNameFormat = "'v'V'.'v";
+                //o.SubstituteApiVersionInUrl = true;
+                //o.SubstitutionFormat = "V'.'v";
+            })
+            .AddMvc(o =>
+            {
+                o.Conventions.Add(new VersionByNamespaceConvention());
+            });
 
 
 
@@ -76,7 +85,8 @@ internal static class ServiceCollectionExtensions
             .AddJsonOptions(o =>
                 o.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             )
-            .AddMvcOptions(o => {
+            .AddMvcOptions(o =>
+            {
                 // Remove redundant output formatters ("text/plain" and "text/json")
                 o.RemoveRedundantOutputFormatters();
 
@@ -89,7 +99,8 @@ internal static class ServiceCollectionExtensions
         return services;
     }
 
-    private static MvcOptions RemoveRedundantOutputFormatters(this MvcOptions mvcOptions) {
+    private static MvcOptions RemoveRedundantOutputFormatters(this MvcOptions mvcOptions)
+    {
         // Remove string output formatter
         mvcOptions
             .OutputFormatters
