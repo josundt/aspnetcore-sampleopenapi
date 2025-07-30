@@ -1,5 +1,6 @@
 using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
+using Scalar.AspNetCore;
 
 namespace Microsoft.AspNetCore.Builder;
 
@@ -8,6 +9,7 @@ internal static class WebApplicationExtensions
     public static WebApplication MapCustomOpenApi(this WebApplication app)
     {
         app.MapOpenApi("/openapi/{documentName}.json");
+        //app.MapScalarApiReference();
 
         return app;
     }
@@ -36,6 +38,25 @@ internal static class WebApplicationExtensions
     public static WebApplication MapCustomControllers(this WebApplication app)
     {
         app.MapControllers();
+
+        return app;
+    }
+
+    public static WebApplication UseCustomScalar(this WebApplication app)
+    {
+        var versionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+
+        app.MapScalarApiReference("/documentation", options =>
+        {
+            options.WithTitle("OpenApi Sample API");
+
+            // Add all versions to a single Scalar UI with proper version names
+            foreach (var description in versionDescriptionProvider.ApiVersionDescriptions)
+            {
+                var versionTitle = $"Version {description.ApiVersion}";
+                options.AddDocument(description.GroupName, versionTitle, $"/openapi/{description.GroupName}.json");
+            }
+        });
 
         return app;
     }
