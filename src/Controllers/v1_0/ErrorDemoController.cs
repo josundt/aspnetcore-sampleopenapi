@@ -4,11 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using SampleOpenApi.Controllers;
 
-namespace AspNetCore.SampleOpenApi.Controllers;
+namespace AspNetCore.SampleOpenApi.Controllers.v1_0;
 
-[ApiVersion("1.0")]
-[ApiVersion("2.0")]
-[Route("api/v{version:apiVersion}/errordemo")]
+[Route("api/errordemo")]
 public class ErrorDemoController : ApiControllerBase
 {
     [HttpGet("default", Name = nameof(GetDefaultError))]

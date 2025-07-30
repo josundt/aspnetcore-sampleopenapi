@@ -20,6 +20,7 @@ app
     .UseCustomExceptionHandler()
     .UseCustomAuthorization()
     .MapCustomOpenApi()
+    .UseCustomScalar()
     .MapCustomControllers();
 
 await app.RunAsync();

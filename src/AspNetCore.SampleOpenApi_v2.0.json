@@ -6,122 +6,29 @@
     "version": "2.0"
   },
   "paths": {
-    "/api/v2.0/errordemo/default": {
-      "get": {
-        "tags": [
-          "ErrorDemo"
-        ],
-        "operationId": "GetDefaultError",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "boolean"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v2.0/errordemo/problem": {
-      "get": {
-        "tags": [
-          "ErrorDemo"
-        ],
-        "operationId": "GetProblemDetails",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "boolean"
-                }
-              }
-            }
-          },
-          "409": {
-            "description": "Conflict",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v2.0/errordemo/validationproblem": {
-      "get": {
-        "tags": [
-          "ErrorDemo"
-        ],
-        "operationId": "GetValidationProblemDetails",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "boolean"
-                }
-              }
-            }
-          },
-          "409": {
-            "description": "Conflict",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v2.0/forecasts": {
+    "/api/forecasts": {
       "get": {
         "tags": [
           "WeatherForecast"
         ],
         "operationId": "GetWeatherForcasts",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -149,7 +56,7 @@
         }
       }
     },
-    "/api/v2.0/forecasts/{date}": {
+    "/api/forecasts/{date}": {
       "get": {
         "tags": [
           "WeatherForecast"
@@ -163,6 +70,21 @@
             "schema": {
               "type": "string",
               "format": "date"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
             }
           }
         ],
@@ -247,9 +169,6 @@
     }
   },
   "tags": [
-    {
-      "name": "ErrorDemo"
-    },
     {
       "name": "WeatherForecast"
     }

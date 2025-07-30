@@ -6,12 +6,29 @@
     "version": "1.0"
   },
   "paths": {
-    "/api/v1.0/errordemo/default": {
+    "/api/errordemo/default": {
       "get": {
         "tags": [
           "ErrorDemo"
         ],
         "operationId": "GetDefaultError",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -36,12 +53,29 @@
         }
       }
     },
-    "/api/v1.0/errordemo/problem": {
+    "/api/errordemo/problem": {
       "get": {
         "tags": [
           "ErrorDemo"
         ],
         "operationId": "GetProblemDetails",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -76,12 +110,29 @@
         }
       }
     },
-    "/api/v1.0/errordemo/validationproblem": {
+    "/api/errordemo/validationproblem": {
       "get": {
         "tags": [
           "ErrorDemo"
         ],
         "operationId": "GetValidationProblemDetails",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -116,12 +167,29 @@
         }
       }
     },
-    "/api/v1.0/forecasts": {
+    "/api/forecasts": {
       "get": {
         "tags": [
           "WeatherForecast"
         ],
         "operationId": "GetWeatherForcasts",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -132,6 +200,62 @@
                   "items": {
                     "$ref": "#/components/schemas/WeatherForecast"
                   }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/forecasts/{date}": {
+      "get": {
+        "tags": [
+          "WeatherForecast"
+        ],
+        "operationId": "GetWeatherForcast",
+        "parameters": [
+          {
+            "name": "date",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WeatherForecast"
                 }
               }
             }
