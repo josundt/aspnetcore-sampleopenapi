@@ -1,5 +1,5 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.1.1",
   "info": {
     "title": "OpenApi Sample API",
     "description": "Sample API to test migration from Swashbuckle to AspNetCore OpenApi",
@@ -121,6 +121,7 @@
         "tags": [
           "WeatherForecast"
         ],
+        "summary": "Get weather forcasts",
         "operationId": "GetWeatherForcasts",
         "responses": {
           "200": {
@@ -154,11 +155,13 @@
         "tags": [
           "WeatherForecast"
         ],
+        "summary": "Get weather forcast by date",
         "operationId": "GetWeatherForcast",
         "parameters": [
           {
             "name": "date",
             "in": "path",
+            "description": "The the weather forecast date",
             "required": true,
             "schema": {
               "type": "string",
@@ -193,37 +196,64 @@
   },
   "components": {
     "schemas": {
+      "Person": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
       "ProblemDetails": {
         "type": "object",
         "properties": {
           "type": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "title": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "status": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ],
+            "format": "int32"
           },
           "detail": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "instance": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           }
         }
+      },
+      "Status": {
+        "type": "integer"
       },
       "WeatherForecast": {
         "required": [
           "date",
           "temperatureC",
-          "summary"
+          "summary",
+          "createdBy"
         ],
         "type": "object",
         "properties": {
@@ -232,15 +262,49 @@
             "format": "date"
           },
           "temperatureC": {
-            "type": "integer",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
             "format": "int32"
           },
           "temperatureF": {
-            "type": "integer",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
             "format": "int32"
           },
           "summary": {
             "type": "string"
+          },
+          "prevStatus": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/Status"
+              }
+            ]
+          },
+          "currStatus": {
+            "$ref": "#/components/schemas/Status"
+          },
+          "createdBy": {
+            "$ref": "#/components/schemas/Person"
+          },
+          "modifiedBy": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/Person"
+              }
+            ]
           }
         }
       }

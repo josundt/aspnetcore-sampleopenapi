@@ -1,8 +1,6 @@
 using Asp.Versioning;
 using AspNetCore.SampleOpenApi.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using SampleOpenApi.Controllers;
 
 namespace AspNetCore.SampleOpenApi.Controllers;
 
@@ -25,13 +23,13 @@ public class WeatherForecastController : ApiControllerBase
     [ProducesDefaultResponseType]
     public IEnumerable<WeatherForecast> GetWeatherForcasts()
     {
-        return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+        return [.. Enumerable.Range(1, 5).Select(index => new WeatherForecast
         {
             Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
             TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = _summaries[Random.Shared.Next(_summaries.Length)]
-        })
-        .ToArray();
+            Summary = _summaries[Random.Shared.Next(_summaries.Length)],
+            CreatedBy = new() { Name = "Foo" }
+        })];
     }
 
     /// <summary>
@@ -49,7 +47,8 @@ public class WeatherForecastController : ApiControllerBase
         {
             Date = date,
             TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = _summaries[Random.Shared.Next(_summaries.Length)]
+            Summary = _summaries[Random.Shared.Next(_summaries.Length)],
+            CreatedBy = new() { Name = "Foo" }
         };
     }
 }

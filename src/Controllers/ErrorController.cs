@@ -12,19 +12,19 @@ public class ErrorController : ControllerBase
 
     public ErrorController(IHostEnvironment environment)
     {
-        _environment = environment;
-        _exceptionHandlerFeatureLazy = new(() => this.HttpContext.Features.Get<IExceptionHandlerFeature>()!);
+        this._environment = environment;
+        this._exceptionHandlerFeatureLazy = new(() => this.HttpContext.Features.Get<IExceptionHandlerFeature>()!);
     }
 
-    private IExceptionHandlerFeature ExceptionHandlerFeature => _exceptionHandlerFeatureLazy.Value;
+    private IExceptionHandlerFeature ExceptionHandlerFeature => this._exceptionHandlerFeatureLazy.Value;
 
     [AllowAnonymous]
     [Route("error")]
     public IActionResult HandleError()
     {
-        var revealExceptionDetails = _environment.IsDevelopment();
+        var revealExceptionDetails = this._environment.IsDevelopment();
 
-        var ex = ExceptionHandlerFeature?.Error;
+        var ex = this.ExceptionHandlerFeature?.Error;
         if (ex == null)
         {
             return this.Problem();

@@ -1,7 +1,7 @@
 {
   "version": 1,
   "dependencies": {
-    "net9.0": {
+    "net10.0": {
       "Asp.Versioning.Mvc.ApiExplorer": {
         "type": "Direct",
         "requested": "[8.1.*, )",
@@ -13,26 +13,23 @@
       },
       "Microsoft.AspNetCore.OpenApi": {
         "type": "Direct",
-        "requested": "[9.0.*, )",
-        "resolved": "9.0.0",
-        "contentHash": "FqUK5j1EOPNuFT7IafltZQ3cakqhSwVzH5ZW1MhZDe4pPXs9sJ2M5jom1Omsu+mwF2tNKKlRAzLRHQTZzbd+6Q==",
+        "requested": "[10.0.0-rc.2.25502.107, )",
+        "resolved": "10.0.0-rc.2.25502.107",
+        "contentHash": "50Egznb0tgVvITuuQQhhQ2fCQqKsy+I7Cy2QopLZziDw/IRhvM+L5ZKA7AdsEr4x/lmuB0HnZPKjD8eRjkbVog==",
         "dependencies": {
-          "Microsoft.OpenApi": "1.6.17"
+          "Microsoft.OpenApi": "2.0.0"
         }
       },
       "Microsoft.Extensions.ApiDescription.Server": {
         "type": "Direct",
-        "requested": "[9.0.*, )",
-        "resolved": "9.0.0",
-        "contentHash": "1Kzzf7pRey40VaUkHN9/uWxrKVkLu2AQjt+GVeeKLLpiEHAJ1xZRsLSh4ZZYEnyS7Kt2OBOPmsXNdU+wbcOl5w=="
+        "requested": "[10.0.0-rc.2.25502.107, )",
+        "resolved": "10.0.0-rc.2.25502.107",
+        "contentHash": "PSxEHsTievToW8sswd/3sMIZ09bv0XlI6Zfa1tsU5TIWtWiOpr9wTWRP3EM7B1uMFPBScyknYUYmOXg6liqowg=="
       },
       "Asp.Versioning.Abstractions": {
         "type": "Transitive",
         "resolved": "8.1.0",
-        "contentHash": "mpeNZyMdvrHztJwR1sXIUQ+3iioEU97YMBnFA9WLbsPOYhGwDJnqJMmEd8ny7kcmS9OjTHoEuX/bSXXY3brIFA==",
-        "dependencies": {
-          "Microsoft.Extensions.Primitives": "8.0.0"
-        }
+        "contentHash": "mpeNZyMdvrHztJwR1sXIUQ+3iioEU97YMBnFA9WLbsPOYhGwDJnqJMmEd8ny7kcmS9OjTHoEuX/bSXXY3brIFA=="
       },
       "Asp.Versioning.Http": {
         "type": "Transitive",
@@ -50,15 +47,10 @@
           "Asp.Versioning.Http": "8.1.0"
         }
       },
-      "Microsoft.Extensions.Primitives": {
-        "type": "Transitive",
-        "resolved": "8.0.0",
-        "contentHash": "bXJEZrW9ny8vjMF1JV253WeLhpEVzFo1lyaZu1vQ4ZxWUlVvknZ/+ftFgVheLubb4eZPSwwxBeqS1JkCOjxd8g=="
-      },
       "Microsoft.OpenApi": {
         "type": "Transitive",
-        "resolved": "1.6.17",
-        "contentHash": "Le+kehlmrlQfuDFUt1zZ2dVwrhFQtKREdKBo+rexOwaCoYP0/qpgT9tLxCsZjsgR5Itk1UKPcbgO+FyaNid/bA=="
+        "resolved": "2.0.0",
+        "contentHash": "GGYLfzV/G/ct80OZ45JxnWP7NvMX1BCugn/lX7TH5o0lcVaviavsLMTxmFV2AybXWjbi3h6FF1vgZiTK6PXndw=="
       }
     }
   }

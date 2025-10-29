@@ -1,8 +1,5 @@
 using Asp.Versioning;
-using AspNetCore.SampleOpenApi.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using SampleOpenApi.Controllers;
 
 namespace AspNetCore.SampleOpenApi.Controllers;
 
@@ -34,7 +31,7 @@ public class ErrorDemoController : ApiControllerBase
     [ProducesDefaultResponseType]
     public ActionResult<bool> GetValidationProblemDetails()
     {
-        ModelState.AddModelError("errorKey", "This is a demo validation error");
-        return this.ValidationProblem(ModelState);
+        this.ModelState.AddModelError("errorKey", "This is a demo validation error");
+        return this.ValidationProblem(this.ModelState);
     }
 }

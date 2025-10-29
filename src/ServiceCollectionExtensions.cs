@@ -4,10 +4,12 @@ using AspNetCore.SampleOpenApi.Transformers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
-using System.Net.Mime;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
+#pragma warning disable IDE0130 // Namespace does not match folder structure
 namespace Microsoft.Extensions.DependencyInjection;
+#pragma warning restore IDE0130 // Namespace does not match folder structure
 
 internal sealed class Options
 {
@@ -25,7 +27,8 @@ internal static class ServiceCollectionExtensions
 
         if (options.Versions?.Any() ?? false)
         {
-            /* var versioningBuilder = */ services
+            /* var versioningBuilder = */
+            services
                 .AddApiVersioning(o =>
                 {
                     o.AssumeDefaultVersionWhenUnspecified = options.DefaultVersionAssumedWhenUnspecified;
@@ -46,7 +49,7 @@ internal static class ServiceCollectionExtensions
                     o.SubstituteApiVersionInUrl = true;
                     o.SubstitutionFormat = "V'.'v";
                 });
-                // .AddMvc(o => { //o.Conventions });
+            // .AddMvc(o => { //o.Conventions });
 
 
 
@@ -57,6 +60,7 @@ internal static class ServiceCollectionExtensions
 
                 services.AddOpenApi(version, o =>
                 {
+                    o.OpenApiVersion = OpenApi.OpenApiSpecVersion.OpenApi3_1;
                     o.ApplyApiVersionInfo(options.Title, options.Description);
                     o.AddOperationTransformer<ProblemDetailsOperationTransformer>();
                     //o.ApplyAuthorizationChecks([.. scopes.Keys]);
@@ -74,9 +78,14 @@ internal static class ServiceCollectionExtensions
         services
             .AddControllers()
             .AddJsonOptions(o =>
-                o.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            )
-            .AddMvcOptions(o => {
+            {
+                o.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                o.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.Never;
+                o.JsonSerializerOptions.UnmappedMemberHandling = JsonUnmappedMemberHandling.Disallow;
+            })
+            .AddMvcOptions(o =>
+            {
                 // Remove redundant output formatters ("text/plain" and "text/json")
                 o.RemoveRedundantOutputFormatters();
 
@@ -89,7 +98,8 @@ internal static class ServiceCollectionExtensions
         return services;
     }
 
-    private static MvcOptions RemoveRedundantOutputFormatters(this MvcOptions mvcOptions) {
+    private static MvcOptions RemoveRedundantOutputFormatters(this MvcOptions mvcOptions)
+    {
         // Remove string output formatter
         mvcOptions
             .OutputFormatters
