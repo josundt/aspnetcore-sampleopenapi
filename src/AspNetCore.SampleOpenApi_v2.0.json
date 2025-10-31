@@ -205,7 +205,8 @@
           "name": {
             "type": "string"
           }
-        }
+        },
+        "additionalProperties": false
       },
       "ProblemDetails": {
         "type": "object",
@@ -243,15 +244,21 @@
               "string"
             ]
           }
-        }
+        },
+        "additionalProperties": false
       },
       "Status": {
-        "type": "integer"
+        "enum": [
+          "Active",
+          "Inactive"
+        ],
+        "type": "string"
       },
       "WeatherForecast": {
         "required": [
           "date",
           "temperatureC",
+          "reportedBy",
           "summary",
           "createdBy"
         ],
@@ -276,6 +283,10 @@
               "string"
             ],
             "format": "int32"
+          },
+          "reportedBy": {
+            "type": "string",
+            "format": "email"
           },
           "summary": {
             "type": "string"
@@ -306,7 +317,8 @@
               }
             ]
           }
-        }
+        },
+        "additionalProperties": false
       }
     }
   },

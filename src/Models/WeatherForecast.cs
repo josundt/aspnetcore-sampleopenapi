@@ -1,4 +1,4 @@
-using System.Text.Json.Serialization;
+using System.ComponentModel.DataAnnotations;
 
 namespace AspNetCore.SampleOpenApi.Models;
 
@@ -22,12 +22,16 @@ public class WeatherForecast
 
     public int TemperatureF => 32 + (int)(this.TemperatureC / 0.5556);
 
+    [EmailAddress]
+    [Required]
+    public string? ReportedBy { get; init; }
+
     public required string Summary { get; init; }
 
-    [JsonConverter(typeof(JsonStringEnumConverter))] // NB! This should not be necessary when API default serialization options has JsonStringEnumConverer
+    //[JsonConverter(typeof(JsonStringEnumConverter))] // NB! This should not be necessary when API default serialization options has JsonStringEnumConverer
     public Status? PrevStatus { get; init; }
 
-    [JsonConverter(typeof(JsonStringEnumConverter))] // NB! This should not be necessary when API default serialization options has JsonStringEnumConverer
+    //[JsonConverter(typeof(JsonStringEnumConverter))] // NB! This should not be necessary when API default serialization options has JsonStringEnumConverer
     public Status CurrStatus { get; init; }
 
     public required Person CreatedBy { get; init; }

@@ -22,7 +22,7 @@ internal sealed class Options
 
 internal static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddCustomOpenApi(this IServiceCollection services, Options options)
+    public static IServiceCollection AddConfiguredOpenApi(this IServiceCollection services, Options options)
     {
 
         if (options.Versions?.Any() ?? false)
@@ -63,6 +63,8 @@ internal static class ServiceCollectionExtensions
                     o.OpenApiVersion = OpenApi.OpenApiSpecVersion.OpenApi3_1;
                     o.ApplyApiVersionInfo(options.Title, options.Description);
                     o.AddOperationTransformer<ProblemDetailsOperationTransformer>();
+                    o.AddSchemaTransformer<EnumSchemaTransformer>();
+                    o.AddSchemaTransformer<DataAnnotationSchemaTransformer>();
                     //o.ApplyAuthorizationChecks([.. scopes.Keys]);
                     //o.ApplySecuritySchemeDefinitions();
                     //o.ApplyOperationDefaultValues();
@@ -73,17 +75,11 @@ internal static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddCustomControllers(this IServiceCollection services)
+    public static IServiceCollection AddConfiguredControllers(this IServiceCollection services)
     {
         services
             .AddControllers()
-            .AddJsonOptions(o =>
-            {
-                o.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-                o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-                o.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.Never;
-                o.JsonSerializerOptions.UnmappedMemberHandling = JsonUnmappedMemberHandling.Disallow;
-            })
+            .AddJsonOptions(o => ConfigureJsonSerialization(o.JsonSerializerOptions))
             .AddMvcOptions(o =>
             {
                 // Remove redundant output formatters ("text/plain" and "text/json")
@@ -96,6 +92,15 @@ internal static class ServiceCollectionExtensions
             });
 
         return services;
+    }
+
+    public static IServiceCollection AddConfiguredMinimalApi(this IServiceCollection services)
+    {
+        return services
+            // Configure Json Serialization for Minimal APIs
+            .ConfigureHttpJsonOptions(options => ConfigureJsonSerialization(options.SerializerOptions))
+            // Add Model validation support for minimal APIs
+            .AddValidation();
     }
 
     private static MvcOptions RemoveRedundantOutputFormatters(this MvcOptions mvcOptions)
@@ -115,5 +120,13 @@ internal static class ServiceCollectionExtensions
         // By now, only "applicaion/json" (and "application/*+json") should be supported
 
         return mvcOptions;
+    }
+
+    private static void ConfigureJsonSerialization(JsonSerializerOptions o)
+    {
+        o.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+        o.Converters.Add(new JsonStringEnumConverter());
+        o.DefaultIgnoreCondition = JsonIgnoreCondition.Never;
+        o.UnmappedMemberHandling = JsonUnmappedMemberHandling.Disallow;
     }
 }

@@ -4,35 +4,37 @@ namespace Microsoft.AspNetCore.Builder;
 
 internal static class WebApplicationExtensions
 {
-    public static WebApplication MapCustomOpenApi(this WebApplication app)
+    public static WebApplication MapConfiguredOpenApi(this WebApplication app)
     {
         app.MapOpenApi("/openapi/{documentName}.json");
 
         return app;
     }
 
-    public static WebApplication UseCustomHttps(this WebApplication app)
+    public static WebApplication UseConfiguredHttps(this WebApplication app)
     {
         app.UseHttpsRedirection();
 
         return app;
     }
 
-    public static WebApplication UseCustomExceptionHandler(this WebApplication app)
+    public static WebApplication UseConfiguredExceptionHandler(this WebApplication app)
     {
-        app.UseExceptionHandler("/error");
+        app
+            .UseExceptionHandler()
+            .UseStatusCodePages(); // Ensures ProblemDetails response behavior for minimal api endpoints on non-success results
 
         return app;
     }
 
-    public static WebApplication UseCustomAuthorization(this WebApplication app)
+    public static WebApplication UseConfiguredAuthorization(this WebApplication app)
     {
         app.UseAuthorization();
 
         return app;
     }
 
-    public static WebApplication MapCustomControllers(this WebApplication app)
+    public static WebApplication MapConfiguredControllers(this WebApplication app)
     {
         app.MapControllers();
 
