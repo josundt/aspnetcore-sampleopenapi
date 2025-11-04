@@ -212,37 +212,20 @@
         "type": "object",
         "properties": {
           "type": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string"
           },
           "title": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string"
           },
           "status": {
-            "pattern": "^-?(?:0|[1-9]\\d*)$",
-            "type": [
-              "null",
-              "integer",
-              "string"
-            ],
+            "type": "integer",
             "format": "int32"
           },
           "detail": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string"
           },
           "instance": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string"
           }
         },
         "additionalProperties": false
@@ -256,32 +239,32 @@
       },
       "WeatherForecast": {
         "required": [
+          "id",
           "date",
           "temperatureC",
           "reportedBy",
           "summary",
-          "createdBy"
+          "createdBy",
+          "url"
         ],
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
           "date": {
             "type": "string",
             "format": "date"
           },
           "temperatureC": {
-            "pattern": "^-?(?:0|[1-9]\\d*)$",
-            "type": [
-              "integer",
-              "string"
-            ],
+            "maximum": 5000,
+            "minimum": -274,
+            "type": "integer",
             "format": "int32"
           },
           "temperatureF": {
-            "pattern": "^-?(?:0|[1-9]\\d*)$",
-            "type": [
-              "integer",
-              "string"
-            ],
+            "type": "integer",
             "format": "int32"
           },
           "reportedBy": {
@@ -289,17 +272,12 @@
             "format": "email"
           },
           "summary": {
+            "maxLength": 255,
+            "minLength": 1,
             "type": "string"
           },
           "prevStatus": {
-            "oneOf": [
-              {
-                "type": "null"
-              },
-              {
-                "$ref": "#/components/schemas/Status"
-              }
-            ]
+            "$ref": "#/components/schemas/Status"
           },
           "currStatus": {
             "$ref": "#/components/schemas/Status"
@@ -308,14 +286,11 @@
             "$ref": "#/components/schemas/Person"
           },
           "modifiedBy": {
-            "oneOf": [
-              {
-                "type": "null"
-              },
-              {
-                "$ref": "#/components/schemas/Person"
-              }
-            ]
+            "$ref": "#/components/schemas/Person"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
           }
         },
         "additionalProperties": false

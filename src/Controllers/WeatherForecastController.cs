@@ -23,12 +23,15 @@ public class WeatherForecastController : ApiControllerBase
     [ProducesDefaultResponseType]
     public IEnumerable<WeatherForecast> GetWeatherForcasts()
     {
+        var id = Guid.NewGuid();
         return [.. Enumerable.Range(1, 5).Select(index => new WeatherForecast
         {
+            Id = id,
             Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
             TemperatureC = Random.Shared.Next(-20, 55),
             Summary = _summaries[Random.Shared.Next(_summaries.Length)],
-            CreatedBy = new() { Name = "Foo" }
+            CreatedBy = new() { Name = "Foo" },
+            Url = new Uri($"https://foo.bar/{id}")
         })];
     }
 
@@ -43,12 +46,15 @@ public class WeatherForecastController : ApiControllerBase
     [ProducesDefaultResponseType]
     public WeatherForecast GetWeatherForcast(DateOnly date)
     {
+        var id = Guid.NewGuid();
         return new WeatherForecast
         {
+            Id = Guid.NewGuid(),
             Date = date,
             TemperatureC = Random.Shared.Next(-20, 55),
             Summary = _summaries[Random.Shared.Next(_summaries.Length)],
-            CreatedBy = new() { Name = "Foo" }
+            CreatedBy = new() { Name = "Foo" },
+            Url = new Uri($"https://foo.bar/{id}")
         };
     }
 }

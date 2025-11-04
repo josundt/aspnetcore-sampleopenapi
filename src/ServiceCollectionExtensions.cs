@@ -65,6 +65,7 @@ internal static class ServiceCollectionExtensions
                     o.AddOperationTransformer<ProblemDetailsOperationTransformer>();
                     o.AddSchemaTransformer<EnumSchemaTransformer>();
                     o.AddSchemaTransformer<DataAnnotationSchemaTransformer>();
+                    o.AddSchemaTransformer<NullableRequiredFixSchemaTransformer>();
                     //o.ApplyAuthorizationChecks([.. scopes.Keys]);
                     //o.ApplySecuritySchemeDefinitions();
                     //o.ApplyOperationDefaultValues();
@@ -126,7 +127,8 @@ internal static class ServiceCollectionExtensions
     {
         o.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
         o.Converters.Add(new JsonStringEnumConverter());
-        o.DefaultIgnoreCondition = JsonIgnoreCondition.Never;
+        o.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
         o.UnmappedMemberHandling = JsonUnmappedMemberHandling.Disallow;
+        o.NumberHandling = JsonNumberHandling.Strict;
     }
 }
