@@ -205,8 +205,7 @@
           "name": {
             "type": "string"
           }
-        },
-        "additionalProperties": false
+        }
       },
       "ProblemDetails": {
         "type": "object",
@@ -227,8 +226,7 @@
           "instance": {
             "type": "string"
           }
-        },
-        "additionalProperties": false
+        }
       },
       "Status": {
         "enum": [
@@ -265,7 +263,7 @@
           },
           "temperatureF": {
             "type": "integer",
-            "format": "int32"
+            "format": "int64"
           },
           "reportedBy": {
             "type": "string",
@@ -292,8 +290,7 @@
             "type": "string",
             "format": "uri"
           }
-        },
-        "additionalProperties": false
+        }
       }
     }
   },

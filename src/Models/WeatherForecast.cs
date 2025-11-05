@@ -23,7 +23,7 @@ public class WeatherForecast
     [Range(-274, 5000)]
     public required int TemperatureC { get; init; }
 
-    public int TemperatureF => 32 + (int)(this.TemperatureC / 0.5556);
+    public long TemperatureF => 32 + (long)(this.TemperatureC / 0.5556);
 
     [EmailAddress]
     [Required]
