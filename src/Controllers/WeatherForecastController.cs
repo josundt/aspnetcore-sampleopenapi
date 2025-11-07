@@ -19,7 +19,7 @@ public class WeatherForecastController : ApiControllerBase
     [ApiVersion("1.0")]
     [ApiVersion("2.0")]
     [HttpGet(Name = nameof(GetWeatherForcasts))]
-    [ProducesResponseType(typeof(IEnumerable<WeatherForecast>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status200OK, Description = "The weather forecast for the next 5 days.")]
     [ProducesDefaultResponseType]
     public IEnumerable<WeatherForecast> GetWeatherForcasts()
     {
