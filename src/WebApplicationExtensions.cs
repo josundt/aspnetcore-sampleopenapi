@@ -7,6 +7,7 @@ internal static class WebApplicationExtensions
     public static WebApplication MapConfiguredOpenApi(this WebApplication app)
     {
         app.MapOpenApi("/openapi/{documentName}.json");
+        app.MapOpenApi("/openapi/{documentName}.yaml");
 
         return app;
     }

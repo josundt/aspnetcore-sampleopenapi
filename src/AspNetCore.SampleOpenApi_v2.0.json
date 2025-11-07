@@ -205,7 +205,8 @@
           "name": {
             "type": "string"
           }
-        }
+        },
+        "additionalProperties": false
       },
       "ProblemDetails": {
         "type": "object",
@@ -226,7 +227,8 @@
           "instance": {
             "type": "string"
           }
-        }
+        },
+        "additionalProperties": false
       },
       "Status": {
         "enum": [
@@ -290,7 +292,8 @@
             "type": "string",
             "format": "uri"
           }
-        }
+        },
+        "additionalProperties": false
       }
     }
   },
