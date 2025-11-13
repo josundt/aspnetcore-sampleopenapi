@@ -36,7 +36,7 @@ public class WeatherForecast
     public Status? PrevStatus { get; init; }
 
     //[JsonConverter(typeof(JsonStringEnumConverter))] // NB! This should not be necessary when API default serialization options has JsonStringEnumConverer
-    public Status CurrStatus { get; init; }
+    public required Status CurrStatus { get; init; }
 
     public required Person CreatedBy { get; init; }
 

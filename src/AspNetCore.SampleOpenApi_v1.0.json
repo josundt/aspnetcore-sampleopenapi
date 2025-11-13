@@ -201,6 +201,7 @@
           "temperatureC",
           "reportedBy",
           "summary",
+          "currStatus",
           "createdBy",
           "url"
         ],

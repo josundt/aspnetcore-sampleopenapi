@@ -31,6 +31,7 @@ public class WeatherForecastController : ApiControllerBase
             TemperatureC = Random.Shared.Next(-20, 55),
             Summary = _summaries[Random.Shared.Next(_summaries.Length)],
             CreatedBy = new() { Name = "Foo" },
+            CurrStatus = Status.Active,
             Url = new Uri($"https://foo.bar/{id}")
         })];
     }
@@ -54,6 +55,7 @@ public class WeatherForecastController : ApiControllerBase
             TemperatureC = Random.Shared.Next(-20, 55),
             Summary = _summaries[Random.Shared.Next(_summaries.Length)],
             CreatedBy = new() { Name = "Foo" },
+            CurrStatus = Status.Active,
             Url = new Uri($"https://foo.bar/{id}")
         };
     }
