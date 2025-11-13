@@ -1,8 +1,6 @@
 using Asp.Versioning;
 using AspNetCore.SampleOpenApi.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using SampleOpenApi.Controllers;
 
 namespace AspNetCore.SampleOpenApi.Controllers;
 
@@ -21,17 +19,21 @@ public class WeatherForecastController : ApiControllerBase
     [ApiVersion("1.0")]
     [ApiVersion("2.0")]
     [HttpGet(Name = nameof(GetWeatherForcasts))]
-    [ProducesResponseType(typeof(IEnumerable<WeatherForecast>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status200OK, Description = "The weather forecast for the next 5 days.")]
     [ProducesDefaultResponseType]
     public IEnumerable<WeatherForecast> GetWeatherForcasts()
     {
-        return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+        var id = Guid.NewGuid();
+        return [.. Enumerable.Range(1, 5).Select(index => new WeatherForecast
         {
+            Id = id,
             Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
             TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = _summaries[Random.Shared.Next(_summaries.Length)]
-        })
-        .ToArray();
+            Summary = _summaries[Random.Shared.Next(_summaries.Length)],
+            CreatedBy = new() { Name = "Foo" },
+            CurrStatus = Status.Active,
+            Url = new Uri($"https://foo.bar/{id}")
+        })];
     }
 
     /// <summary>
@@ -45,11 +47,16 @@ public class WeatherForecastController : ApiControllerBase
     [ProducesDefaultResponseType]
     public WeatherForecast GetWeatherForcast(DateOnly date)
     {
+        var id = Guid.NewGuid();
         return new WeatherForecast
         {
+            Id = Guid.NewGuid(),
             Date = date,
             TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = _summaries[Random.Shared.Next(_summaries.Length)]
+            Summary = _summaries[Random.Shared.Next(_summaries.Length)],
+            CreatedBy = new() { Name = "Foo" },
+            CurrStatus = Status.Active,
+            Url = new Uri($"https://foo.bar/{id}")
         };
     }
 }

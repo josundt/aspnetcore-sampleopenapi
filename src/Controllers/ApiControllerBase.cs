@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace SampleOpenApi.Controllers;
+namespace AspNetCore.SampleOpenApi.Controllers;
 
 [ApiController]
-public abstract class ApiControllerBase : ControllerBase {}
+public abstract class ApiControllerBase : ControllerBase { }

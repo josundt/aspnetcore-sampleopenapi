@@ -1,5 +1,4 @@
 using Asp.Versioning.ApiExplorer;
-using AspNetCore.SampleOpenApi.Transformers;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.Extensions.Primitives;
 using System.Text;

@@ -4,10 +4,12 @@ using AspNetCore.SampleOpenApi.Transformers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
-using System.Net.Mime;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
+#pragma warning disable IDE0130 // Namespace does not match folder structure
 namespace Microsoft.Extensions.DependencyInjection;
+#pragma warning restore IDE0130 // Namespace does not match folder structure
 
 internal sealed class Options
 {
@@ -20,12 +22,13 @@ internal sealed class Options
 
 internal static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddCustomOpenApi(this IServiceCollection services, Options options)
+    public static IServiceCollection AddConfiguredOpenApi(this IServiceCollection services, Options options)
     {
 
         if (options.Versions?.Any() ?? false)
         {
-            /* var versioningBuilder = */ services
+            /* var versioningBuilder = */
+            services
                 .AddApiVersioning(o =>
                 {
                     o.AssumeDefaultVersionWhenUnspecified = options.DefaultVersionAssumedWhenUnspecified;
@@ -46,7 +49,7 @@ internal static class ServiceCollectionExtensions
                     o.SubstituteApiVersionInUrl = true;
                     o.SubstitutionFormat = "V'.'v";
                 });
-                // .AddMvc(o => { //o.Conventions });
+            // .AddMvc(o => { //o.Conventions });
 
 
 
@@ -57,8 +60,12 @@ internal static class ServiceCollectionExtensions
 
                 services.AddOpenApi(version, o =>
                 {
+                    o.OpenApiVersion = OpenApi.OpenApiSpecVersion.OpenApi3_1;
                     o.ApplyApiVersionInfo(options.Title, options.Description);
                     o.AddOperationTransformer<ProblemDetailsOperationTransformer>();
+                    o.AddSchemaTransformer<EnumSchemaTransformer>();
+                    o.AddSchemaTransformer<DataAnnotationSchemaTransformer>();
+                    o.AddSchemaTransformer<NullableRequiredFixSchemaTransformer>();
                     //o.ApplyAuthorizationChecks([.. scopes.Keys]);
                     //o.ApplySecuritySchemeDefinitions();
                     //o.ApplyOperationDefaultValues();
@@ -69,14 +76,13 @@ internal static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddCustomControllers(this IServiceCollection services)
+    public static IServiceCollection AddConfiguredControllers(this IServiceCollection services)
     {
         services
             .AddControllers()
-            .AddJsonOptions(o =>
-                o.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            )
-            .AddMvcOptions(o => {
+            .AddJsonOptions(o => ConfigureJsonSerialization(o.JsonSerializerOptions))
+            .AddMvcOptions(o =>
+            {
                 // Remove redundant output formatters ("text/plain" and "text/json")
                 o.RemoveRedundantOutputFormatters();
 
@@ -89,7 +95,17 @@ internal static class ServiceCollectionExtensions
         return services;
     }
 
-    private static MvcOptions RemoveRedundantOutputFormatters(this MvcOptions mvcOptions) {
+    public static IServiceCollection AddConfiguredMinimalApi(this IServiceCollection services)
+    {
+        return services
+            // Configure Json Serialization for Minimal APIs
+            .ConfigureHttpJsonOptions(options => ConfigureJsonSerialization(options.SerializerOptions))
+            // Add Model validation support for minimal APIs
+            .AddValidation();
+    }
+
+    private static MvcOptions RemoveRedundantOutputFormatters(this MvcOptions mvcOptions)
+    {
         // Remove string output formatter
         mvcOptions
             .OutputFormatters
@@ -105,5 +121,14 @@ internal static class ServiceCollectionExtensions
         // By now, only "applicaion/json" (and "application/*+json") should be supported
 
         return mvcOptions;
+    }
+
+    private static void ConfigureJsonSerialization(JsonSerializerOptions o)
+    {
+        o.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+        o.Converters.Add(new JsonStringEnumConverter());
+        o.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+        o.UnmappedMemberHandling = JsonUnmappedMemberHandling.Disallow;
+        o.NumberHandling = JsonNumberHandling.Strict;
     }
 }
