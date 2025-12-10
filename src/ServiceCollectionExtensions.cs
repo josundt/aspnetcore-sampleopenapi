@@ -52,8 +52,14 @@ internal static class ServiceCollectionExtensions
             // .AddMvc(o => { //o.Conventions });
 
 
+            //var inferredVersions = services
+            //    .BuildServiceProvider()
+            //    .GetRequiredService<IApiVersionDescriptionProvider>()
+            //    .ApiVersionDescriptions
+            //    .Select(v => (v.ApiVersion.MajorVersion!.Value, v.ApiVersion.MinorVersion!.Value));
 
-            foreach (var v in options.Versions)
+
+            foreach (var v in options.Versions /* inferredVersions */)
             {
                 var (major, minor) = v;
                 var version = $"v{major}.{minor}";
@@ -62,7 +68,7 @@ internal static class ServiceCollectionExtensions
                 {
                     o.OpenApiVersion = OpenApi.OpenApiSpecVersion.OpenApi3_1;
                     o.ApplyApiVersionInfo(options.Title, options.Description);
-                    o.AddOperationTransformer<ProblemDetailsOperationTransformer>();
+                    o.AddOperationTransformer<ProblemDetailsResponseOperationTransformer>();
                     o.AddSchemaTransformer<EnumSchemaTransformer>();
                     o.AddSchemaTransformer<DataAnnotationSchemaTransformer>();
                     o.AddSchemaTransformer<NullableRequiredFixSchemaTransformer>();

@@ -2,9 +2,11 @@ using Microsoft.AspNetCore.OpenApi;
 using Microsoft.OpenApi;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using System.Text.Json.Serialization;
 
 namespace AspNetCore.SampleOpenApi.Transformers;
+
 /// <summary>
 /// Provides an OpenAPI schema transformer that adjusts property nullability and required status based on JSON
 /// serialization options and data annotations.
@@ -22,8 +24,12 @@ internal sealed class NullableRequiredFixSchemaTransformer : IOpenApiSchemaTrans
     )
     {
         var type = context.JsonTypeInfo.Type;
+
+        (schema.Metadata ?? new Dictionary<string, object>()).TryGetValue("x-schema-id", out var typeName);
+
         var jsonOptions = context.JsonTypeInfo.Options;
-        var omitNulls = jsonOptions.DefaultIgnoreCondition is JsonIgnoreCondition.WhenWritingNull or JsonIgnoreCondition.WhenWritingDefault;
+        var jsonIgnoreCondition = jsonOptions.DefaultIgnoreCondition;
+
         foreach (var propertyInfo in type.GetProperties())
         {
             var hasRequiredAttrib = Attribute.IsDefined(propertyInfo, typeof(RequiredAttribute));
@@ -33,6 +39,11 @@ internal sealed class NullableRequiredFixSchemaTransformer : IOpenApiSchemaTrans
                 {
                     continue;
                 }
+
+                jsonIgnoreCondition = propertyInfo.GetCustomAttributes<JsonIgnoreAttribute>().FirstOrDefault()?.Condition
+                    ?? jsonIgnoreCondition;
+
+                var omitNulls = jsonIgnoreCondition is JsonIgnoreCondition.WhenWritingNull or JsonIgnoreCondition.WhenWritingDefault;
 
                 if (omitNulls || hasRequiredAttrib)
                 {
@@ -46,6 +57,12 @@ internal sealed class NullableRequiredFixSchemaTransformer : IOpenApiSchemaTrans
                         // Remove null
                         propertySchema.Type = propertySchema.Type.Value & ~JsonSchemaType.Null;
                     }
+
+                    var nullEnumIndex = propertySchema.Enum?.ToList().FindIndex(v => v == null) ?? -1;
+                    if (nullEnumIndex >= 0)
+                    {
+                        propertySchema.Enum?.RemoveAt(nullEnumIndex);
+                    }
                 }
                 else
                 {
@@ -55,8 +72,8 @@ internal sealed class NullableRequiredFixSchemaTransformer : IOpenApiSchemaTrans
 
             }
         }
-       return Task.CompletedTask;
+        return Task.CompletedTask;
     }
 
-    
+
 }

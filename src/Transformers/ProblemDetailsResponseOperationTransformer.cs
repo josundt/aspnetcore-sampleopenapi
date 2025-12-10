@@ -7,20 +7,16 @@ using System.Net.Mime;
 
 namespace AspNetCore.SampleOpenApi.Transformers;
 
-/// <summary>
-/// Transforms OpenAPI operation responses to use the 'application/problem+json' media type for error responses that
-/// return ProblemDetails objects.
-/// </summary>
-/// <remarks>This transformer is intended for use with OpenAPI documentation generation. It updates the response
-/// content types for non-successful HTTP status codes when the response type is ProblemDetails, ensuring that the
-/// OpenAPI specification accurately reflects the use of the 'application/problem+json' media type as recommended for
-/// standardized error responses.</remarks>
 [SuppressMessage("Performance", "CA1812:Avoid uninstantiated internal classes", Justification = "Instantiated by the OpenApi library")]
-internal sealed class ProblemDetailsOperationTransformer : IOpenApiOperationTransformer
+internal sealed class ProblemDetailsResponseOperationTransformer : IOpenApiOperationTransformer
 {
     private const string _problemDetailsMediaTypeName = "application/problem+json";
 
-    public Task TransformAsync(OpenApiOperation operation, OpenApiOperationTransformerContext context, CancellationToken cancellationToken) 
+    public Task TransformAsync(
+        OpenApiOperation operation,
+        OpenApiOperationTransformerContext context,
+        CancellationToken cancellationToken
+    )
     {
 
         foreach (var responseType in context.Description.SupportedResponseTypes)
@@ -53,6 +49,10 @@ internal sealed class ProblemDetailsOperationTransformer : IOpenApiOperationTran
                 response.Content.TryGetValue(MediaTypeNames.Application.Json, out var applicationJsonContent)
             )
             {
+                if (string.IsNullOrEmpty(response.Description))
+                {
+                    response.Description = "Error";
+                }
                 response.Content.Remove(MediaTypeNames.Application.Json);
                 response.Content.Add(_problemDetailsMediaTypeName, applicationJsonContent);
             }

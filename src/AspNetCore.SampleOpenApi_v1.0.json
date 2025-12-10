@@ -24,7 +24,7 @@
             }
           },
           "default": {
-            "description": "",
+            "description": "Error",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -64,7 +64,7 @@
             }
           },
           "default": {
-            "description": "",
+            "description": "Error",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -104,7 +104,7 @@
             }
           },
           "default": {
-            "description": "",
+            "description": "Error",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -122,6 +122,7 @@
           "WeatherForecast"
         ],
         "summary": "Get weather forcasts",
+        "description": "Gets the weather forecast for the next 5 days.",
         "operationId": "GetWeatherForcasts",
         "responses": {
           "200": {
@@ -138,7 +139,7 @@
             }
           },
           "default": {
-            "description": "",
+            "description": "Error",
             "content": {
               "application/problem+json": {
                 "schema": {

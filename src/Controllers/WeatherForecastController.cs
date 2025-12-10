@@ -15,6 +15,9 @@ public class WeatherForecastController : ApiControllerBase
     /// <summary>
     /// Get weather forcasts
     /// </summary>
+    /// <remarks>
+    /// Gets the weather forecast for the next 5 days.
+    /// </remarks>
     /// <returns>The collection of <see cref="WeatherForecast"/>s</returns>
     [ApiVersion("1.0")]
     [ApiVersion("2.0")]
@@ -39,11 +42,14 @@ public class WeatherForecastController : ApiControllerBase
     /// <summary>
     /// Get weather forcast by date
     /// </summary>
+    /// <remarks>
+    /// Gets the weather forecast for the specified date.
+    /// </remarks>
     /// <param name="date">The the weather forecast date</param>
     /// <returns>The <see cref="WeatherForecast"/></returns>
     [ApiVersion("2.0")]
     [HttpGet("{date}", Name = nameof(GetWeatherForcast))]
-    [ProducesResponseType(typeof(WeatherForecast), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status200OK, Description = "The weather forecast for the specified date.")]
     [ProducesDefaultResponseType]
     public WeatherForecast GetWeatherForcast(DateOnly date)
     {
