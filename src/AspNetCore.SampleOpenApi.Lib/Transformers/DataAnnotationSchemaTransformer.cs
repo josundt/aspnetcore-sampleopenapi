@@ -3,7 +3,7 @@ using Microsoft.OpenApi;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
-namespace AspNetCore.SampleOpenApi.Transformers;
+namespace AspNetCore.SampleOpenApi.Lib.Transformers;
 
 [SuppressMessage("Performance", "CA1812:Avoid uninstantiated internal classes", Justification = "Instantiated by the OpenApi library")]
 internal sealed class DataAnnotationSchemaTransformer : IOpenApiSchemaTransformer

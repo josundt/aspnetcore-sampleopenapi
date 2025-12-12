@@ -1,7 +1,7 @@
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AspNetCore.SampleOpenApi.Controllers;
+namespace AspNetCore.SampleOpenApi.Api.Controllers;
 
 [ApiVersion("1.0")]
 [ApiVersion("2.0")]

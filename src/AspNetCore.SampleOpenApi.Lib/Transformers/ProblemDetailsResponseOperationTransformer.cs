@@ -5,7 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Net.Mime;
 
-namespace AspNetCore.SampleOpenApi.Transformers;
+namespace AspNetCore.SampleOpenApi.Lib.Transformers;
 
 [SuppressMessage("Performance", "CA1812:Avoid uninstantiated internal classes", Justification = "Instantiated by the OpenApi library")]
 internal sealed class ProblemDetailsResponseOperationTransformer : IOpenApiOperationTransformer

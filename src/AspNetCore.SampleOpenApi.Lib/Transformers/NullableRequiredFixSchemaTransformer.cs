@@ -5,7 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Text.Json.Serialization;
 
-namespace AspNetCore.SampleOpenApi.Transformers;
+namespace AspNetCore.SampleOpenApi.Lib.Transformers;
 
 /// <summary>
 /// Provides an OpenAPI schema transformer that adjusts property nullability and required status based on JSON

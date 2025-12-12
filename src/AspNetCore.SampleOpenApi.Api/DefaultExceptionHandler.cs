@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AspNetCore.SampleOpenApi;
+namespace AspNetCore.SampleOpenApi.Api;
 
 public class DefaultExceptionHandler(IHostEnvironment environment, ILogger<DefaultExceptionHandler> logger) : IExceptionHandler
 {

@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
-namespace AspNetCore.SampleOpenApi.Transformers;
+namespace AspNetCore.SampleOpenApi.Lib.Transformers;
 
 /// <summary>
 /// Transforms OpenAPI schema definitions for enum types to accurately represent their serialization format in generated

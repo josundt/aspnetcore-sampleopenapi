@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.OpenApi;
 using Microsoft.Extensions.Primitives;
 using System.Text;
 
-namespace AspNetCore.SampleOpenApi;
+namespace AspNetCore.SampleOpenApi.Lib;
 
 internal static class OpenApiOptionsExtensions
 {
@@ -13,7 +13,7 @@ internal static class OpenApiOptionsExtensions
         {
             var versionedDescriptionProvider = context
                 .ApplicationServices
-                .GetService<IApiVersionDescriptionProvider>();
+                .GetService(typeof(IApiVersionDescriptionProvider)) as IApiVersionDescriptionProvider;
 
             var apiDescription = versionedDescriptionProvider?
                 .ApiVersionDescriptions

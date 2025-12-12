@@ -1,6 +1,6 @@
 using Asp.Versioning;
-using AspNetCore.SampleOpenApi;
-using AspNetCore.SampleOpenApi.Transformers;
+using AspNetCore.SampleOpenApi.Lib;
+using AspNetCore.SampleOpenApi.Lib.Transformers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
@@ -9,21 +9,12 @@ using System.Text.Json.Serialization;
 
 #pragma warning disable IDE0130 // Namespace does not match folder structure
 namespace Microsoft.Extensions.DependencyInjection;
-#pragma warning restore IDE0130 // Namespace does not match folder structure
 
-internal sealed class Options
+public static class ServiceCollectionExtensions
 {
-    public required string Title { get; set; }
-    public string? Description { get; set; }
-    public bool DefaultVersionAssumedWhenUnspecified { get; set; }
-    public IEnumerable<(int, int)>? Versions { get; set; }
-    public (int, int)? DefaultVersion { get; set; }
-}
-
-internal static class ServiceCollectionExtensions
-{
-    public static IServiceCollection AddConfiguredOpenApi(this IServiceCollection services, Options options)
+    public static IServiceCollection AddConfiguredOpenApi(this IServiceCollection services, CustomOpenApiOptions options)
     {
+        ArgumentNullException.ThrowIfNull(options);
 
         if (options.Versions?.Any() ?? false)
         {
@@ -59,24 +50,24 @@ internal static class ServiceCollectionExtensions
             //    .Select(v => (v.ApiVersion.MajorVersion!.Value, v.ApiVersion.MinorVersion!.Value));
 
 
-            foreach (var v in options.Versions /* inferredVersions */)
-            {
-                var (major, minor) = v;
-                var version = $"v{major}.{minor}";
+            //foreach (var v in options.Versions /* inferredVersions */)
+            //{
+            //    var (major, minor) = v;
+            //    var version = $"v{major}.{minor}";
 
-                services.AddOpenApi(version, o =>
-                {
-                    o.OpenApiVersion = OpenApi.OpenApiSpecVersion.OpenApi3_1;
-                    o.ApplyApiVersionInfo(options.Title, options.Description);
-                    o.AddOperationTransformer<ProblemDetailsResponseOperationTransformer>();
-                    o.AddSchemaTransformer<EnumSchemaTransformer>();
-                    o.AddSchemaTransformer<DataAnnotationSchemaTransformer>();
-                    o.AddSchemaTransformer<NullableRequiredFixSchemaTransformer>();
-                    //o.ApplyAuthorizationChecks([.. scopes.Keys]);
-                    //o.ApplySecuritySchemeDefinitions();
-                    //o.ApplyOperationDefaultValues();
-                });
-            }
+            services.AddOpenApi("v2.0", o =>
+            {
+                o.OpenApiVersion = OpenApi.OpenApiSpecVersion.OpenApi3_1;
+                o.ApplyApiVersionInfo(options.Title, options.Description);
+                o.AddOperationTransformer<ProblemDetailsResponseOperationTransformer>();
+                o.AddSchemaTransformer<EnumSchemaTransformer>();
+                o.AddSchemaTransformer<DataAnnotationSchemaTransformer>();
+                o.AddSchemaTransformer<NullableRequiredFixSchemaTransformer>();
+                //o.ApplyAuthorizationChecks([.. scopes.Keys]);
+                //o.ApplySecuritySchemeDefinitions();
+                //o.ApplyOperationDefaultValues();
+            });
+            //}
         }
 
         return services;

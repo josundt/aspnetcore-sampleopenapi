@@ -1,9 +1,10 @@
-using AspNetCore.SampleOpenApi;
+using AspNetCore.SampleOpenApi.Api;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Services
-    .AddConfiguredOpenApi(new Options {
+    .AddConfiguredOpenApi(new CustomOpenApiOptions
+    {
         Title = "OpenApi Sample API",
         Description = "Sample API to test migration from Swashbuckle to AspNetCore OpenApi",
         DefaultVersionAssumedWhenUnspecified = false,

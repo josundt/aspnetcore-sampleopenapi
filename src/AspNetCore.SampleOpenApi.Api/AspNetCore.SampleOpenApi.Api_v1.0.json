@@ -1,4 +1,4 @@
-{
+  {
   "openapi": "3.1.1",
   "info": {
     "title": "OpenApi Sample API",
@@ -121,8 +121,6 @@
         "tags": [
           "WeatherForecast"
         ],
-        "summary": "Get weather forcasts",
-        "description": "Gets the weather forecast for the next 5 days.",
         "operationId": "GetWeatherForcasts",
         "responses": {
           "200": {

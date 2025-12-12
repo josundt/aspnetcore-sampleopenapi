@@ -2,7 +2,7 @@ using Microsoft.OpenApi;
 using System.Reflection;
 using System.Text.Json;
 
-namespace AspNetCore.SampleOpenApi.Transformers;
+namespace AspNetCore.SampleOpenApi.Lib.Transformers;
 
 internal static class TransformerUtil
 {

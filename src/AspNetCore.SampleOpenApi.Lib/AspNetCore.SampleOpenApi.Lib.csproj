@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AnalysisLevel>latest-all</AnalysisLevel>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.*" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.*" />
+  </ItemGroup>
+
+  <Target Name="AddXmlSources" BeforeTargets="CoreCompile">
+    <ItemGroup>
+      <AdditionalFiles Include="../AspNetCore.SampleOpenApi.Api/bin/$(Configuration)/$(TargetFramework)/AspNetCore.SampleOpenApi.Api.xml" />
+    </ItemGroup>
+  </Target>
+  
+</Project>

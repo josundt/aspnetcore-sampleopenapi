@@ -121,8 +121,6 @@
         "tags": [
           "WeatherForecast"
         ],
-        "summary": "Get weather forcasts",
-        "description": "Gets the weather forecast for the next 5 days.",
         "operationId": "GetWeatherForcasts",
         "responses": {
           "200": {
@@ -156,14 +154,11 @@
         "tags": [
           "WeatherForecast"
         ],
-        "summary": "Get weather forcast by date",
-        "description": "Gets the weather forecast for the specified date.",
         "operationId": "GetWeatherForcast",
         "parameters": [
           {
             "name": "date",
             "in": "path",
-            "description": "The the weather forecast date",
             "required": true,
             "schema": {
               "type": "string",

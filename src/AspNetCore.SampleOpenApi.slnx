@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="AspNetCore.SampleOpenApi.Api/AspNetCore.SampleOpenApi.Api.csproj" />
+  <Project Path="AspNetCore.SampleOpenApi.Lib/AspNetCore.SampleOpenApi.Lib.csproj" Id="880b6099-4437-4579-8921-1cf98d921992" />
 </Solution>
