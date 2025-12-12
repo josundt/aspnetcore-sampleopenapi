@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.OpenApi;
 using Microsoft.Extensions.Primitives;
 using System.Text;
 
-namespace AspNetCore.SampleOpenApi;
+namespace AspNetCore.SampleOpenApi.Api;
 
 internal static class OpenApiOptionsExtensions
 {

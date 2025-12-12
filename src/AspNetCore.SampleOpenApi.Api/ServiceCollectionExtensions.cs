@@ -1,6 +1,6 @@
 using Asp.Versioning;
-using AspNetCore.SampleOpenApi;
-using AspNetCore.SampleOpenApi.Transformers;
+using AspNetCore.SampleOpenApi.Api;
+using AspNetCore.SampleOpenApi.Api.Transformers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;

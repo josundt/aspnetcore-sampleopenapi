@@ -1,8 +1,8 @@
 using Asp.Versioning;
-using AspNetCore.SampleOpenApi.Models;
+using AspNetCore.SampleOpenApi.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AspNetCore.SampleOpenApi.Controllers;
+namespace AspNetCore.SampleOpenApi.Api.Controllers;
 
 [Route("api/v{version:apiVersion}/forecasts")]
 [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "CA5394:Do not use insecure randomness", Justification = "<Pending>")]

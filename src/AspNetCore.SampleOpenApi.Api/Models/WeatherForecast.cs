@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace AspNetCore.SampleOpenApi.Models;
+namespace AspNetCore.SampleOpenApi.Api.Models;
 
 
 public enum Status

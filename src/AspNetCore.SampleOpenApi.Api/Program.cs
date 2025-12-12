@@ -1,4 +1,4 @@
-using AspNetCore.SampleOpenApi;
+using AspNetCore.SampleOpenApi.Api;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
