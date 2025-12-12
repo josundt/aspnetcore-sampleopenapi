@@ -13,10 +13,12 @@
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.*" />
   </ItemGroup>
 
+<!--
   <Target Name="AddXmlSources" BeforeTargets="CoreCompile">
     <ItemGroup>
       <AdditionalFiles Include="../AspNetCore.SampleOpenApi.Api/bin/$(Configuration)/$(TargetFramework)/AspNetCore.SampleOpenApi.Api.xml" />
     </ItemGroup>
   </Target>
+-->
   
 </Project>
